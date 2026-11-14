@@ -1,0 +1,20 @@
+{
+  // Node 24 runs .ts files directly by "stripping" the types away.
+  // So we never compile to JS: tsc is only used to CHECK types (`npm run typecheck`).
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "noEmit": true,                    // tsc only checks, never outputs .js files
+    "allowImportingTsExtensions": true, // lets us write `import x from "./x.ts"` (Node needs the real extension)
+    "erasableSyntaxOnly": true,         // forbid TS features Node can't strip (enum, namespace, constructor param properties)
+    "verbatimModuleSyntax": true,       // forces `import type` for type-only imports — keeps runtime imports honest
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,   // arr[0] is `T | undefined` — catches real bugs in backend code
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["src"]
+}
